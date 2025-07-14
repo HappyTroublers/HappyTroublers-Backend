@@ -1,4 +1,4 @@
 package happyTroublers.user.dtos;
 
-public record UserResponse() {
+public class CustomUserMapper {
 }
