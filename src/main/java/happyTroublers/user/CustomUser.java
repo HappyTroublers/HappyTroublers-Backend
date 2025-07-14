@@ -25,4 +25,6 @@ public class CustomUser {
 
     @Column(name = "password", table = "users", nullable = false, unique = true, length = 50)
     private String password;
+
+    private String role;
 }

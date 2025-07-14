@@ -16,16 +16,16 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority());
+        return List.of(new SimpleGrantedAuthority(customUser.getRole()));
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return customUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return customUser.getUsername();
     }
 }
