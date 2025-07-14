@@ -1,4 +1,4 @@
 package happyTroublers.user;
 
-public class UserService {
+public class CustomUserDetail {
 }
