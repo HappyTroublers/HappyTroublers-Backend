@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class CustomUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,4 +25,6 @@ public class User {
 
     @Column(name = "password", table = "users", nullable = false, unique = true, length = 50)
     private String password;
+
+    private String role;
 }
