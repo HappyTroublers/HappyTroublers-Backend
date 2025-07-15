@@ -1,10 +1,14 @@
 package happyTroublers.user;
 
+import happyTroublers.destination.Destination;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -26,5 +30,9 @@ public class CustomUser {
     @Column(name = "password", table = "users", nullable = false, unique = true, length = 50)
     private String password;
 
-    private String role;
+    @Column(name = "role", table = "users", nullable = false, length = 20)
+    private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Destination> destination = new ArrayList<>();
 }
