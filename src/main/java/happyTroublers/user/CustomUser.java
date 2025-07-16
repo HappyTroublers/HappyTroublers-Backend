@@ -33,6 +33,6 @@ public class CustomUser {
     @Column(name = "role", table = "users", nullable = false, length = 20)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "username")
     private List<Destination> destination = new ArrayList<>();
 }
