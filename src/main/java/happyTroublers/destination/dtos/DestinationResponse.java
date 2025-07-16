@@ -1,5 +1,7 @@
 package happyTroublers.destination.dtos;
 
+import happyTroublers.user.CustomUser;
+
 public record DestinationResponse(
         String city,
         String country,
@@ -8,3 +10,4 @@ public record DestinationResponse(
         String username
 ) {
 }
+
