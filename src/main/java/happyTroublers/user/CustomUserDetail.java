@@ -8,24 +8,24 @@ import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetail implements UserDetails {
-    private final CustomUser customUser;
+    private final CustomUser user;
 
-    public CustomUserDetail(CustomUser customUser) {
-        this.customUser = customUser;
+    public CustomUserDetail(CustomUser user) {
+        this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(customUser.getRole()));
+        return List.of(new SimpleGrantedAuthority(user.getRole().toString()));
     }
 
     @Override
     public String getPassword() {
-        return customUser.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return customUser.getUsername();
+        return user.getUsername();
     }
 }
