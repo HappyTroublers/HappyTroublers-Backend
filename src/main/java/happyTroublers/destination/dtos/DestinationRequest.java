@@ -3,7 +3,6 @@ package happyTroublers.destination.dtos;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Singular;
 
 public record DestinationRequest(
         @NotBlank(message = "City is required")
@@ -21,6 +20,6 @@ public record DestinationRequest(
                 message = "Image URL must be a valid URL")
         String imageUrl,
 
-        String user
+        String username
 ) {
 }
