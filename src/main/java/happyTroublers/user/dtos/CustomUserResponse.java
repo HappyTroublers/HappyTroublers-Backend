@@ -1,4 +1,6 @@
 package happyTroublers.user.dtos;
 
-public record CustomUserResponse() {
+public record CustomUserResponse(
+        String
+) {
 }
