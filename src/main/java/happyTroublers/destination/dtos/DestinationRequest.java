@@ -21,6 +21,6 @@ public record DestinationRequest(
                 message = "Image URL must be a valid URL")
         String imageUrl,
 
-        String username
+        String user
 ) {
 }
