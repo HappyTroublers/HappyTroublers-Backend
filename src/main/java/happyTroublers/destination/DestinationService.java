@@ -32,10 +32,24 @@ public class DestinationService {
     }
 
     public DestinationResponse addDestination(DestinationRequest destinationRequest) {
-        CustomUser foundUser = CUSTOM_USER_REPOSITORY.findByUsername(destinationRequest.user()).orElseThrow(() -> new EntityNotFoundException("User " + username + " not found") );
+        CustomUser foundUser = CUSTOM_USER_REPOSITORY.findByUsername(destinationRequest.username()).orElseThrow(() -> new EntityNotFoundException("User " + destinationRequest.username() + " not found"));
         Destination newDestination = DestinationMapper.dtoToEntity(destinationRequest, foundUser);
         Destination savedDestination = DESTINATION_REPOSITORY.save(newDestination);
         return DestinationMapper.entityToDto(savedDestination);
     }
 
+    public DestinationResponse updateDestination(Long id, DestinationRequest destinationRequest) {
+        Destination existingDestination = DESTINATION_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("Destination with id \" + id + \" not found"));
+        existingDestination.setCity(destinationRequest.city());
+        existingDestination.setCountry(destinationRequest.country());
+        existingDestination.setDescription(destinationRequest.description());
+        existingDestination.setImageUrl(destinationRequest.imageUrl());
+        Destination updatedDestination = DESTINATION_REPOSITORY.save(existingDestination);
+        return DestinationMapper.entityToDto(updatedDestination);
+    }
+
+    public void deleteDestination(Long id) {
+        DestinationResponse destination = getDestinationById(id);
+        DESTINATION_REPOSITORY.deleteById(id);
+    }
 }
