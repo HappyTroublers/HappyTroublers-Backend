@@ -3,6 +3,16 @@ import happyTroublers.destination.Destination;
 import happyTroublers.user.CustomUser;
 
 public class DestinationMapper {
+    public static Destination dtoToEntity(DestinationRequest dto, CustomUser user) {
+        return new Destination(
+                dto.city(),
+                dto.country(),
+                dto.description(),
+                dto.imageUrl(),
+                user
+        );
+    }
+
     public static DestinationResponse entityToDto(Destination destination) {
         return new DestinationResponse(
                 destination.getCity(),
@@ -10,15 +20,6 @@ public class DestinationMapper {
                 destination.getDescription(),
                 destination.getImageUrl(),
                 destination.getUser().getUsername()
-        );
-}
-    public static Destination dtoToEntity(DestinationResponse destinationResponse, CustomUser user) {
-        return new Destination(
-                destinationResponse.city(),
-                destinationResponse.country(),
-                destinationResponse.description(),
-                destinationResponse.imageUrl(),
-                user
         );
     }
 }
