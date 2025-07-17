@@ -1,4 +1,11 @@
 package happyTroublers.user.dtos;
 
-public record UserResponse() {
+import happyTroublers.destination.Destination;
+
+import java.util.List;
+
+public record UserResponse(
+        String username,
+        List<Destination> destinations
+) {
 }
