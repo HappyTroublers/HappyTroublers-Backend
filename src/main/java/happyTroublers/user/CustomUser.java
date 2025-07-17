@@ -41,4 +41,11 @@ public class CustomUser {
         this.email = email;
         this.password = password;
     }
+
+    public CustomUser(String username, String email, String password, Role role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }

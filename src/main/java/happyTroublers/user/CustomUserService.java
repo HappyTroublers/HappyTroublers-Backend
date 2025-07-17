@@ -1,9 +1,6 @@
 package happyTroublers.user;
 
-import happyTroublers.destination.Destination;
-import happyTroublers.destination.DestinationRepository;
-import happyTroublers.user.dtos.UserMapper;
-import happyTroublers.user.dtos.UserResponse;
+import happyTroublers.user.dtos.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
