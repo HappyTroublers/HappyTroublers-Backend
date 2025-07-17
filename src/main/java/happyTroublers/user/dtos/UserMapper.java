@@ -1,6 +1,8 @@
 package happyTroublers.user.dtos;
 
 import happyTroublers.destination.Destination;
+import happyTroublers.destination.dtos.DestinationMapper;
+import happyTroublers.destination.dtos.DestinationResponse;
 import happyTroublers.user.CustomUser;
 
 import java.util.List;
@@ -14,7 +16,8 @@ public class UserMapper {
         );
     }
 
-    public static UserResponse entityToDto (CustomUser user, List<Destination> destinationsList) {
+    public static UserResponse entityToDto (CustomUser user) {
+        List<DestinationResponse> destinationsList = user.getDestinations().stream().map(destination -> DestinationMapper.entityToDto(destination)).toList();
         return new UserResponse(
                 user.getUsername(),
                 destinationsList

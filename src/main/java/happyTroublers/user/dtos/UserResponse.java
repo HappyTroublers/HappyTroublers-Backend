@@ -1,11 +1,12 @@
 package happyTroublers.user.dtos;
 
 import happyTroublers.destination.Destination;
+import happyTroublers.destination.dtos.DestinationResponse;
 
 import java.util.List;
 
 public record UserResponse(
         String username,
-        List<Destination> destinations
+        List<DestinationResponse> destinations
 ) {
 }
