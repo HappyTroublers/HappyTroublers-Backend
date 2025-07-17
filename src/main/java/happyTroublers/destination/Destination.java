@@ -32,8 +32,13 @@ public class Destination {
 
     @ManyToOne
     @JoinColumn(name = "customUser_id", nullable = false)
-    private String username;
+    private CustomUser user;
 
-    public Destination(String city, String country, String description, String imageUrl, String username) {
+    public Destination(String city, String country, String description, String imageUrl, CustomUser user) {
+        this.city = city;
+        this.country = country;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.user = user;
     }
 }
