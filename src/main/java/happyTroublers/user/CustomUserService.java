@@ -39,8 +39,8 @@ public class CustomUserService {
         CUSTOM_USER_REPOSITORY.deleteById(id);
     }
 
-    public UserResponse getUserById(Long id) {
+    public AdminResponse getUserById(Long id) {
         CustomUser user = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
-        return CustomUserMapper.UserMapper.entityToDto(user);
+        return AdminMapper.entityToDto(user);
     }
 }
