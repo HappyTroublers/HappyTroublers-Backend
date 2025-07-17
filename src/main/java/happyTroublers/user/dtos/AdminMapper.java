@@ -6,20 +6,19 @@ import happyTroublers.user.CustomUser;
 
 import java.util.List;
 
-public class UserMapper {
-    public static CustomUser dtoToEntity(UserRequest dto) {
+public class AdminMapper {
+    public static CustomUser dtoToEntity(AdminRequest dto) {
         return new CustomUser(
                 dto.username(),
                 dto.email(),
-                dto.password()
+                dto.password(),
+                dto.role()
         );
     }
 
-    public static UserResponse entityToDto (CustomUser user) {
+    //DestinationList in admin?
+    public static AdminResponse entityToDto(CustomUser user) {
         List<DestinationResponse> destinationsList = user.getDestinations().stream().map(destination -> DestinationMapper.entityToDto(destination)).toList();
-        return new UserResponse(
-                user.getUsername(),
-                destinationsList
-        );
+        return new AdminResponse(user.getUsername(), user.getEmail(), user.getRole(), destinationsList);
     }
 }
