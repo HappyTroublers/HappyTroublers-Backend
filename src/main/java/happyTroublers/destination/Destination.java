@@ -40,6 +40,5 @@ public class Destination {
         this.description = description;
         this.imageUrl = imageUrl;
         this.user = user;
-
     }
 }

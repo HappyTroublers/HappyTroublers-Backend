@@ -1,9 +1,6 @@
 package happyTroublers.user;
 
-import happyTroublers.destination.Destination;
-import happyTroublers.destination.DestinationRepository;
-import happyTroublers.user.dtos.UserMapper;
-import happyTroublers.user.dtos.UserResponse;
+import happyTroublers.user.dtos.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -42,8 +39,8 @@ public class CustomUserService {
         CUSTOM_USER_REPOSITORY.deleteById(id);
     }
 
-    public UserResponse getUserById(Long id) {
+    public AdminResponse getUserById(Long id) {
         CustomUser user = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
-        return UserMapper.entityToDto(user);
+        return AdminMapper.entityToDto(user);
     }
 }
