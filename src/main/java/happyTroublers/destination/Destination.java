@@ -31,7 +31,7 @@ public class Destination {
     private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name = "customUser_id", referencedColumnName = "username", nullable = false)
+    @JoinColumn(name = "custom_user_id", referencedColumnName = "id", nullable = false)
     private CustomUser user;
 
     public Destination(String city, String country, String description, String imageUrl, CustomUser user) {
