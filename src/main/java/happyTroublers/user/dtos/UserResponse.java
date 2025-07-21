@@ -1,11 +1,6 @@
 package happyTroublers.user.dtos;
 
-<<<<<<< HEAD
-import happyTroublers.destination.Destination;
-=======
->>>>>>> abf9399844da266df1f919b470610d852ebd74d7
 import happyTroublers.destination.dtos.DestinationResponse;
-
 import java.util.List;
 
 public record UserResponse(

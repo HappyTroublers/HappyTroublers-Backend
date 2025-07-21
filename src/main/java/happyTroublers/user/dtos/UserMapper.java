@@ -1,9 +1,5 @@
 package happyTroublers.user.dtos;
 
-<<<<<<< HEAD
-import happyTroublers.destination.Destination;
-=======
->>>>>>> abf9399844da266df1f919b470610d852ebd74d7
 import happyTroublers.destination.dtos.DestinationMapper;
 import happyTroublers.destination.dtos.DestinationResponse;
 import happyTroublers.user.CustomUser;
@@ -26,8 +22,5 @@ public class UserMapper {
                 destinationsList
         );
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> abf9399844da266df1f919b470610d852ebd74d7
+
