@@ -1,15 +1,15 @@
 package happyTroublers.user.dtos;
 
-<<<<<<< HEAD
-import happyTroublers.destination.Destination;
-=======
->>>>>>> abf9399844da266df1f919b470610d852ebd74d7
 import happyTroublers.destination.dtos.DestinationResponse;
+import happyTroublers.user.Role;
 
 import java.util.List;
 
-public record UserResponse(
+//DestinationList in admin?
+public record AdminResponse(
         String username,
+        String email,
+        Role role,
         List<DestinationResponse> destinations
 ) {
 }

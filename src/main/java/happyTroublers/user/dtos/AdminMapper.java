@@ -1,33 +1,24 @@
 package happyTroublers.user.dtos;
 
-<<<<<<< HEAD
-import happyTroublers.destination.Destination;
-=======
->>>>>>> abf9399844da266df1f919b470610d852ebd74d7
 import happyTroublers.destination.dtos.DestinationMapper;
 import happyTroublers.destination.dtos.DestinationResponse;
 import happyTroublers.user.CustomUser;
 
 import java.util.List;
 
-public class UserMapper {
-    public static CustomUser dtoToEntity(UserRequest dto) {
+public class AdminMapper {
+    public static CustomUser dtoToEntity(AdminRequest dto) {
         return new CustomUser(
                 dto.username(),
                 dto.email(),
-                dto.password()
+                dto.password(),
+                dto.role()
         );
     }
 
-    public static UserResponse entityToDto (CustomUser user) {
+    //DestinationList in admin?
+    public static AdminResponse entityToDto(CustomUser user) {
         List<DestinationResponse> destinationsList = user.getDestinations().stream().map(destination -> DestinationMapper.entityToDto(destination)).toList();
-        return new UserResponse(
-                user.getUsername(),
-                destinationsList
-        );
+        return new AdminResponse(user.getUsername(), user.getEmail(), user.getRole(), destinationsList);
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> abf9399844da266df1f919b470610d852ebd74d7
