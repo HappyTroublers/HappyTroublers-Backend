@@ -1,16 +1,22 @@
-package happyTroublers.user;
+package happyTroublers.user.services;
 
-import happyTroublers.user.dtos.*;
+import happyTroublers.user.CustomUser;
+import happyTroublers.user.CustomUserRepository;
+import happyTroublers.user.dtos.AdminMapper;
+import happyTroublers.user.dtos.AdminRequest;
+import happyTroublers.user.dtos.AdminResponse;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CustomUserService {
-    public final CustomUserRepository CUSTOM_USER_REPOSITORY;
+public class AdminService {
+    public final CustomUserRepository
+    CUSTOM_USER_REPOSITORY;
 
-    public CustomUserService(CustomUserRepository customUserRepository) {
+
+    public AdminService(CustomUserRepository customUserRepository) {
         CUSTOM_USER_REPOSITORY = customUserRepository;
     }
 
@@ -19,9 +25,9 @@ public class CustomUserService {
         return users.stream().map(user -> AdminMapper.entityToDto(user)).toList();
     }
 
-    public UserResponse getUserByName(String username) {
-        CustomUser user = CUSTOM_USER_REPOSITORY.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User " + username + " not found"));
-        return UserMapper.entityToDto(user);
+    public AdminResponse getUserById(Long id) {
+        CustomUser user = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        return AdminMapper.entityToDto(user);
     }
 
     public AdminResponse updateUser(Long id, AdminRequest adminRequest) {
@@ -37,10 +43,5 @@ public class CustomUserService {
     public void deleteUser(Long id) {
         getUserById(id);
         CUSTOM_USER_REPOSITORY.deleteById(id);
-    }
-
-    public AdminResponse getUserById(Long id) {
-        CustomUser user = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
-        return AdminMapper.entityToDto(user);
     }
 }
