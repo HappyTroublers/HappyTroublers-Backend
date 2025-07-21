@@ -1,11 +1,11 @@
 package happyTroublers.user.services;
 
+import happyTroublers.exceptions.custom_exceptions.UserNotFoundException;
 import happyTroublers.user.CustomUser;
 import happyTroublers.user.CustomUserRepository;
 import happyTroublers.user.dtos.AdminMapper;
 import happyTroublers.user.dtos.AdminRequest;
 import happyTroublers.user.dtos.AdminResponse;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,12 +26,12 @@ public class AdminService {
     }
 
     public AdminResponse getUserById(Long id) {
-        CustomUser user = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        CustomUser user = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
         return AdminMapper.entityToDto(user);
     }
 
     public AdminResponse updateUser(Long id, AdminRequest adminRequest) {
-        CustomUser existingUser = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        CustomUser existingUser = CUSTOM_USER_REPOSITORY.findById(id).orElseThrow(() -> new UserNotFoundException("User with id " + id + " not found"));
         existingUser.setUsername(adminRequest.username());
         existingUser.setEmail(adminRequest.email());
         existingUser.setPassword(adminRequest.password());
