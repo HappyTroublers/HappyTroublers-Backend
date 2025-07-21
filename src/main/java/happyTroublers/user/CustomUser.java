@@ -33,6 +33,19 @@ public class CustomUser {
     @Column(name = "role", table = "users", nullable = false, length = 20)
     private Role role;
 
-    @OneToMany(mappedBy = "username")
-    private List<Destination> destination = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Destination> destinations = new ArrayList<>();
+
+    public CustomUser(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public CustomUser(String username, String email, String password, Role role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }
