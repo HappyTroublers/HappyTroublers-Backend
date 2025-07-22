@@ -3,9 +3,10 @@ package happyTroublers.destination;
 import happyTroublers.destination.dtos.DestinationMapper;
 import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
+import happyTroublers.exceptions.custom_exceptions.DestinationNotFoundException;
+import happyTroublers.exceptions.custom_exceptions.UserNotFoundException;
 import happyTroublers.user.CustomUser;
 import happyTroublers.user.CustomUserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,19 +28,19 @@ public class DestinationService {
     }
 
     public DestinationResponse getDestinationById(Long id) {
-        Destination destination = DESTINATION_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("Destination with id " + id + " not found"));
+        Destination destination = DESTINATION_REPOSITORY.findById(id).orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
         return DestinationMapper.entityToDto(destination);
     }
 
     public DestinationResponse addDestination(DestinationRequest destinationRequest) {
-        CustomUser foundUser = CUSTOM_USER_REPOSITORY.findByUsername(destinationRequest.username()).orElseThrow(() -> new EntityNotFoundException("User " + destinationRequest.username() + " not found"));
+        CustomUser foundUser = CUSTOM_USER_REPOSITORY.findByUsername(destinationRequest.username()).orElseThrow(() -> new UserNotFoundException("User " + destinationRequest.username() + " not found"));
         Destination newDestination = DestinationMapper.dtoToEntity(destinationRequest, foundUser);
         Destination savedDestination = DESTINATION_REPOSITORY.save(newDestination);
         return DestinationMapper.entityToDto(savedDestination);
     }
 
     public DestinationResponse updateDestination(Long id, DestinationRequest destinationRequest) {
-        Destination existingDestination = DESTINATION_REPOSITORY.findById(id).orElseThrow(() -> new EntityNotFoundException("Destination with id \" + id + \" not found"));
+        Destination existingDestination = DESTINATION_REPOSITORY.findById(id).orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
         existingDestination.setCity(destinationRequest.city());
         existingDestination.setCountry(destinationRequest.country());
         existingDestination.setDescription(destinationRequest.description());
