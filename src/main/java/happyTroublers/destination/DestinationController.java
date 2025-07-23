@@ -11,7 +11,7 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/destinations")
+@RequestMapping("/destinations")
 
 public class DestinationController {
     private final DestinationService DESTINATION_SERVICE;

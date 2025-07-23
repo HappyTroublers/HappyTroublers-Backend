@@ -14,8 +14,8 @@ public record AdminRequest (
         String email,
 
         @NotBlank(message = "Password is required")
-        @Pattern(message = "Password must contain a minimum of 8 characters, including a number, one uppercase letter, one lowercase letter and one special character",
-                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{8,}$")
+        @Pattern(message = "Password must contain a minimum of 12 characters, including a number, one uppercase letter, one lowercase letter and one special character",
+                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{12,}$")
         String password,
 
         @NotNull(message = "Role is required")

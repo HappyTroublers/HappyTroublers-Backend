@@ -2,18 +2,14 @@ package happyTroublers.user;
 
 import happyTroublers.destination.Destination;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomUser {
@@ -21,16 +17,17 @@ public class CustomUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", table = "users", nullable = false, unique = true, length = 50)
+    @Column(name = "username", nullable = false, unique = true, length = 50)
     private String username;
 
-    @Column(name = "email", table = "users", nullable = false, unique = true, length = 50)
+    @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(name = "password", table = "users", nullable = false, unique = true, length = 50)
+    @Column(name = "password", nullable = false, unique = true, length = 50)
     private String password;
 
-    @Column(name = "role", table = "users", nullable = false, length = 20)
+    @Column(name = "role", nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(mappedBy = "user")
