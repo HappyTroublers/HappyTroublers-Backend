@@ -2,6 +2,7 @@ package happyTroublers.destination;
 
 import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
+import happyTroublers.user.CustomUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +33,9 @@ public class DestinationController {
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@PathVariable String user) {
-        List<DestinationResponse> destinations = DESTINATION_SERVICE.getDestinationsByUsername(user);
+    @GetMapping("/{user}")
+    public ResponseEntity<List<DestinationResponse>> getDestinationsByUser(@PathVariable CustomUser user) {
+        List<DestinationResponse> destinations = DESTINATION_SERVICE.getDestinationsByUser(user);
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
 
