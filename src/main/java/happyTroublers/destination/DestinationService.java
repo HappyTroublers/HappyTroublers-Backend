@@ -33,7 +33,7 @@ public class DestinationService {
     }
 
     public List<DestinationResponse> getDestinationsByUser(CustomUser user) {
-        List<Destination> destinations = DESTINATION_REPOSITORY.findByUser(user).orElseThrow(() -> new UserNotFoundException("Destination with username " + user + " not found"));
+        List<Destination> destinations = DESTINATION_REPOSITORY.findByUser(user).orElseThrow(() -> new DestinationNotFoundException("Destination with username " + user + " not found"));
         return destinations.stream().map(destination -> DestinationMapper.entityToDto(destination)).toList();
     }
 
