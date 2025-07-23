@@ -33,9 +33,9 @@ public class DestinationController {
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{user}")
-    public ResponseEntity<List<DestinationResponse>> getDestinationsByUser(@PathVariable CustomUser user) {
-        List<DestinationResponse> destinations = DESTINATION_SERVICE.getDestinationsByUser(user);
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@PathVariable String username) {
+        List<DestinationResponse> destinations = DESTINATION_SERVICE.getDestinationsByUsername(username);
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
 
