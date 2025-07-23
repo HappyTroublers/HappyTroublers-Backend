@@ -32,6 +32,13 @@ public class DestinationController {
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@PathVariable String user) {
+        List<DestinationResponse> destinations = DESTINATION_SERVICE.getDestinationsByUsername(user);
+        return new ResponseEntity<>(destinations, HttpStatus.OK);
+    }
+
+
     @PostMapping
     public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest) {
         DestinationResponse destinationResponse = DESTINATION_SERVICE.addDestination(destinationRequest);

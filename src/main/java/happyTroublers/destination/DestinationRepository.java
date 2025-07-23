@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DestinationRepository extends JpaRepository<Destination, Long> {
-    Optional<List<Destination>> findByUsername(String Username);
+    Optional<List<Destination>> findByUsername(String user);
 }
