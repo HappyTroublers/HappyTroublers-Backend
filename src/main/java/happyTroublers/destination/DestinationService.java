@@ -32,6 +32,11 @@ public class DestinationService {
         return DestinationMapper.entityToDto(destination);
     }
 
+    public List<DestinationResponse> getDestinationsByUsername(String username) {
+        List<Destination> destinations = DESTINATION_REPOSITORY.findByUsername(username).orElseThrow(() -> new UserNotFoundException("Destination with username " + username + " not found"));
+        return destinations.stream().map(destination -> DestinationMapper.entityToDto(destination)).toList();
+    }
+
     public DestinationResponse addDestination(DestinationRequest destinationRequest) {
         CustomUser foundUser = CUSTOM_USER_REPOSITORY.findByUsername(destinationRequest.username()).orElseThrow(() -> new UserNotFoundException("User " + destinationRequest.username() + " not found"));
         Destination newDestination = DestinationMapper.dtoToEntity(destinationRequest, foundUser);
