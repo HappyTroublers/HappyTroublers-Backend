@@ -1,8 +1,5 @@
-package happyTroublers.destintion;
+package happyTroublers.destination;
 
-import happyTroublers.destination.Destination;
-import happyTroublers.destination.DestinationRepository;
-import happyTroublers.destination.DestinationService;
 import happyTroublers.destination.dtos.DestinationMapper;
 import happyTroublers.destination.dtos.DestinationResponse;
 import happyTroublers.user.CustomUser;
@@ -20,6 +17,7 @@ import java.util.Optional;
 import static happyTroublers.user.Role.USER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -48,15 +46,13 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void getDestinationByUser_whenDestinationExist_returnListOfDestinationResponse() {
+    void getAllDestinations_whenDestinationExist_returnListOfDestinationResponse() {
 
-        String username = "María";
+        when(destinationRepository.findAll()).thenReturn(List.of(destination));
 
-        when(customUserRepository.findByUsername(username)).thenReturn(Optional.of(user));
-        when(destinationRepository.findByUser(user)).thenReturn(Optional.of(destinationList));
+        List<DestinationResponse> result = destinationService.getAllDestinations();
 
-        List<DestinationResponse> result = destinationService.getDestinationsByUsername(username);
-
+        assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("Madrid", result.getFirst().city());
         assertEquals("Spain", result.getFirst().country());
@@ -64,8 +60,7 @@ public class DestinationServiceTest {
         assertEquals("img.png", result.getFirst().imageUrl());
         assertEquals("María", result.getFirst().username());
 
-        verify(destinationRepository, times(1)).findByUser(user);
-        verify(customUserRepository, times(1)).findByUsername("María");
+        verify(destinationRepository, times(1)).findAll();
     }
 
     @Test
@@ -89,5 +84,26 @@ public class DestinationServiceTest {
         assertThat(result.username()).isEqualTo(expectedResponse.username());
 
         verify(destinationRepository, times(1)).findById(id);
+    }
+
+    @Test
+    void getDestinationByUser_whenDestinationExist_returnListOfDestinationResponse() {
+
+        String username = "María";
+
+        when(customUserRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(destinationRepository.findByUser(user)).thenReturn(Optional.of(destinationList));
+
+        List<DestinationResponse> result = destinationService.getDestinationsByUsername(username);
+
+        assertEquals(1, result.size());
+        assertEquals("Madrid", result.getFirst().city());
+        assertEquals("Spain", result.getFirst().country());
+        assertEquals("blablabla", result.getFirst().description());
+        assertEquals("img.png", result.getFirst().imageUrl());
+        assertEquals("María", result.getFirst().username());
+
+        verify(destinationRepository, times(1)).findByUser(user);
+        verify(customUserRepository, times(1)).findByUsername("María");
     }
 }
