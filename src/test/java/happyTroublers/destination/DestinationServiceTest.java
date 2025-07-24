@@ -39,6 +39,7 @@ public class DestinationServiceTest {
     //private DestinationResponse destinationResponse;
     private DestinationRequest destinationRequest;
     private String username;
+    private Long id;
 
     @BeforeEach
     void setUp() {
@@ -48,6 +49,7 @@ public class DestinationServiceTest {
         //destinationResponse = new DestinationResponse( "Madrid", "Spain", "blablabla", "img.png", "María");
         destinationRequest = new DestinationRequest("Madrid", "Spain", "blablabla", "img.png", "María");
         username = "María";
+        id = 1L;
     }
 
     @Test
@@ -128,6 +130,23 @@ public class DestinationServiceTest {
         assertEquals("María", result.username());
 
         verify(customUserRepository, times(1)).findByUsername(username);
+        verify(destinationRepository, times(1)).save(any(Destination.class));
+    }
+
+    @Test
+    void updateDestination_whenDestinationExist_returnDestinationResponse() {
+
+        DestinationRequest updatedDestinationRequest = new DestinationRequest("Londres", "UK", "blibli", "img1.png", "María");
+        Destination updatedDestination = new Destination(1L, "Londres", "UK", "blibli", "img1.png", user);
+        DestinationResponse updatedDestinationResponse = new DestinationResponse("Londres", "UK", "blibli", "img1.png", "María");
+
+        when(destinationRepository.findById(eq(id))).thenReturn(Optional.of(destination));
+        when(destinationRepository.save(any(Destination.class))).thenReturn(updatedDestination);
+
+        DestinationResponse result = destinationService.updateDestination(id, updatedDestinationRequest);
+
+        assertEquals(updatedDestinationResponse, result);
+        verify(destinationRepository,times(1)).findById(eq(id));
         verify(destinationRepository, times(1)).save(any(Destination.class));
     }
 }
