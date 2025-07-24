@@ -1,6 +1,7 @@
 package happyTroublers.destination;
 
 import happyTroublers.destination.dtos.DestinationMapper;
+import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
 import happyTroublers.user.CustomUser;
 import happyTroublers.user.CustomUserRepository;
@@ -36,13 +37,17 @@ public class DestinationServiceTest {
     private Destination destination;
     private List<Destination> destinationList;
     //private DestinationResponse destinationResponse;
+    private DestinationRequest destinationRequest;
+    private String username;
 
     @BeforeEach
     void setUp() {
         user = new CustomUser(1L, "María", "maria@gmail.com", "maria123", USER, List.of());
         destination = new Destination (1L, "Madrid", "Spain", "blablabla", "img.png", user);
-        //destinationResponse = new DestinationResponse( "Madrid", "Spain", "blablabla", "img.png", "María");
         destinationList = List.of(destination);
+        //destinationResponse = new DestinationResponse( "Madrid", "Spain", "blablabla", "img.png", "María");
+        destinationRequest = new DestinationRequest("Madrid", "Spain", "blablabla", "img.png", "María");
+        username = "María";
     }
 
     @Test
@@ -87,15 +92,14 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void getDestinationByUser_whenDestinationExist_returnListOfDestinationResponse() {
-
-        String username = "María";
+    void getDestinationsByUsername_whenDestinationExist_returnListOfDestinationResponse() {
 
         when(customUserRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(destinationRepository.findByUser(user)).thenReturn(Optional.of(destinationList));
 
         List<DestinationResponse> result = destinationService.getDestinationsByUsername(username);
 
+        assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("Madrid", result.getFirst().city());
         assertEquals("Spain", result.getFirst().country());
@@ -105,5 +109,25 @@ public class DestinationServiceTest {
 
         verify(destinationRepository, times(1)).findByUser(user);
         verify(customUserRepository, times(1)).findByUsername("María");
+    }
+
+    @Test
+    void addDestination_whenCorrectRequest_returnDestinationResponse() {
+
+        when(customUserRepository.findByUsername(username)).thenReturn(Optional.of(user));
+        when(destinationRepository.save(any(Destination.class))).thenReturn(destination);
+
+        DestinationResponse result = destinationService.addDestination(destinationRequest);
+
+        assertNotNull(result);
+        assertEquals(DestinationResponse.class, result.getClass());
+        assertEquals("Madrid", result.city());
+        assertEquals("Spain", result.country());
+        assertEquals("blablabla", result.description());
+        assertEquals("img.png", result.imageUrl());
+        assertEquals("María", result.username());
+
+        verify(customUserRepository, times(1)).findByUsername(username);
+        verify(destinationRepository, times(1)).save(any(Destination.class));
     }
 }
