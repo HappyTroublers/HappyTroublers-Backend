@@ -23,11 +23,11 @@ public class Destination {
     @Column(name = "description", length = 1000)
     private String description;
 
-    @Column(name = "imageUrl", length = 250)
+    @Column(name = "image_url", length = 250)
     private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name = "customUser_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private CustomUser user;
 
     public Destination(String city, String country, String description, String imageUrl, CustomUser user) {
