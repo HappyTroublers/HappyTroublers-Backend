@@ -36,7 +36,6 @@ public class DestinationServiceTest {
     private CustomUser user;
     private Destination destination;
     private List<Destination> destinationList;
-    //private DestinationResponse destinationResponse;
     private DestinationRequest destinationRequest;
     private String username;
     private Long id;
@@ -46,7 +45,6 @@ public class DestinationServiceTest {
         user = new CustomUser(1L, "María", "maria@gmail.com", "maria123", USER, List.of());
         destination = new Destination (1L, "Madrid", "Spain", "blablabla", "img.png", user);
         destinationList = List.of(destination);
-        //destinationResponse = new DestinationResponse( "Madrid", "Spain", "blablabla", "img.png", "María");
         destinationRequest = new DestinationRequest("Madrid", "Spain", "blablabla", "img.png", "María");
         username = "María";
         id = 1L;
@@ -72,7 +70,7 @@ public class DestinationServiceTest {
 
     @Test
     void getDestinationById_whenDestinationExist_returnDestinationResponse() {
-        // Given
+
         Long id = 1L;
         CustomUser user = new CustomUser(1L, "María", "maria@email.com", "pass123", USER, List.of());
         Destination destination = new Destination(id, "Madrid", "España", "Una ciudad genial", "img.png", user);
@@ -80,10 +78,8 @@ public class DestinationServiceTest {
 
         given(destinationRepository.findById(id)).willReturn(Optional.of(destination));
 
-        // When
         DestinationResponse result = destinationService.getDestinationById(id);
 
-        // Then
         assertThat(result.city()).isEqualTo(expectedResponse.city());
         assertThat(result.country()).isEqualTo(expectedResponse.country());
         assertThat(result.description()).isEqualTo(expectedResponse.description());
@@ -131,8 +127,25 @@ public class DestinationServiceTest {
 
         verify(customUserRepository, times(1)).findByUsername(username);
         verify(destinationRepository, times(1)).save(any(Destination.class));
+    }
 
-    
+    @Test
+    void updateDestination_whenDestinationExist_returnDestinationResponse() {
+
+        DestinationRequest updatedDestinationRequest = new DestinationRequest("Londres", "UK", "blibli", "img1.png", "María");
+        Destination updatedDestination = new Destination(1L, "Londres", "UK", "blibli", "img1.png", user);
+        DestinationResponse updatedDestinationResponse = new DestinationResponse("Londres", "UK", "blibli", "img1.png", "María");
+
+        when(destinationRepository.findById(eq(id))).thenReturn(Optional.of(destination));
+        when(destinationRepository.save(any(Destination.class))).thenReturn(updatedDestination);
+
+        DestinationResponse result = destinationService.updateDestination(id, updatedDestinationRequest);
+
+        assertEquals(updatedDestinationResponse, result);
+        verify(destinationRepository,times(1)).findById(eq(id));
+        verify(destinationRepository, times(1)).save(any(Destination.class));
+    }
+
      @Test
      void deleteDestination_whenDestinationExists_deletesSuccessfully() {
         Long id = 1L;
@@ -146,3 +159,4 @@ public class DestinationServiceTest {
         verify(destinationRepository, times(1)).findById(id);
     }
 }
+
