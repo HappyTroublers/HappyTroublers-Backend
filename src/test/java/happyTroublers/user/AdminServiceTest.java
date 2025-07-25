@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import static happyTroublers.user.Role.USER;
 import static org.mockito.Mockito.*;
@@ -43,5 +44,16 @@ public class AdminServiceTest {
         List<AdminResponse> result = adminService.getAllUsers(); //lista los usuarios con los parametros del dto adminresponse
 
         verify(customUserRepository, times(1)).findAll(); //verifica si el metodo findAll fue llamado
+    }
+
+    void deleteUser_whenUserExists_deleteSuccess() {
+        Long id = 1L;
+        CustomUser user = new CustomUser(1L, "Bob", "Esponja@email.com", "pass123", USER, List.of());
+
+        when(customUserRepository.findById(id)).thenReturn(Optional.of(user));
+
+        adminService.deleteUser(id);
+
+        verify(customUserRepository, times(1)).delete(user);
     }
 }
