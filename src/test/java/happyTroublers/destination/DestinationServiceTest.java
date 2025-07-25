@@ -131,5 +131,18 @@ public class DestinationServiceTest {
 
         verify(customUserRepository, times(1)).findByUsername(username);
         verify(destinationRepository, times(1)).save(any(Destination.class));
+
+    
+     @Test
+     void deleteDestination_whenDestinationExists_deletesSuccessfully() {
+        Long id = 1L;
+        Destination destination = new Destination(id, "Madrid", "España", "Descripción", "img.png", user);
+
+        when(destinationRepository.findById(id)).thenReturn(Optional.of(destination));
+
+        destinationService.deleteDestination(id);
+
+        verify(destinationRepository, times(1)).deleteById(id);
+        verify(destinationRepository, times(1)).findById(id);
     }
 }
