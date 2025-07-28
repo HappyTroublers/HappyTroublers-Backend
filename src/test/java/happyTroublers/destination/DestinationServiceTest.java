@@ -334,8 +334,6 @@ public class DestinationServiceTest {
         verify(spyService, never()).filterByCity(any());
         verify(spyService, never()).filterByCountry(any());
     }
-
-
 }
 
 
