@@ -39,7 +39,6 @@ public class DestinationController {
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
 
-
     @PostMapping
     public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest) {
         DestinationResponse destinationResponse = DESTINATION_SERVICE.addDestination(destinationRequest);
@@ -57,4 +56,6 @@ public class DestinationController {
         DESTINATION_SERVICE.deleteDestination(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
 }

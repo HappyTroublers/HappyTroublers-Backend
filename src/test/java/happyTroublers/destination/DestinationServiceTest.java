@@ -52,7 +52,7 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void getAllDestinations_whenDestinationExist_returnListOfDestinationResponse() {
+    void getAllDestinations_whenDestinationExist_returnsListOfDestinationResponse() {
 
         when(destinationRepository.findAll()).thenReturn(List.of(destination));
 
@@ -70,7 +70,7 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void getDestinationById_whenDestinationExist_returnDestinationResponse() {
+    void getDestinationById_whenDestinationExist_returnsDestinationResponse() {
 
         //Long id = 1L;
         //CustomUser user = new CustomUser(1L, "María", "maria@email.com", "pass123", USER, List.of());
@@ -107,7 +107,7 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void getDestinationsByUsername_whenDestinationExist_returnListOfDestinationResponse() {
+    void getDestinationsByUsername_whenDestinationExist_returnsListOfDestinationResponse() {
 
         when(customUserRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(destinationRepository.findByUser(user)).thenReturn(Optional.of(destinationList));
@@ -127,7 +127,7 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void addDestination_whenCorrectRequest_returnDestinationResponse() {
+    void addDestination_whenCorrectRequest_returnsDestinationResponse() {
 
         when(customUserRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(destinationRepository.save(any(Destination.class))).thenReturn(destination);
@@ -163,7 +163,7 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void updateDestination_whenDestinationExist_returnDestinationResponse() {
+    void updateDestination_whenDestinationExist_returnsDestinationResponse() {
 
         DestinationRequest updatedDestinationRequest = new DestinationRequest("London", "UK", "blibli", "img1.png", "María");
         Destination updatedDestination = new Destination(1L, "London", "UK", "blibli", "img1.png", user);
@@ -212,20 +212,77 @@ public class DestinationServiceTest {
     }
 
    @Test
-    void deleteDestination_whenDestinationDoesNotExist_throwsException() {
-
+   void deleteDestination_whenDestinationDoesNotExist_throwsException() {
         Long id = 2L;
 
-       String messageExpected = "Destination with id " + id + " not found";
+        String messageExpected = "Destination with id " + id + " not found";
 
-       when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
+        when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
 
-       Exception result = assertThrows(DestinationNotFoundException.class, () -> destinationService.deleteDestination(id));
+        Exception result = assertThrows(DestinationNotFoundException.class, () -> destinationService.deleteDestination(id));
 
-       assertEquals(messageExpected, result.getMessage());
+        assertEquals(messageExpected, result.getMessage());
 
-       verify(destinationRepository, times(1)).findById(id);
-       verify(destinationRepository, never()).deleteById(anyLong());
+        verify(destinationRepository, times(1)).findById(id);
+        verify(destinationRepository, never()).deleteById(anyLong());
    }
+
+   @Test
+   void filterByCity_whenCityExists_returnsListOfDestinationResponse() {
+
+        String city = "Madrid";
+        List<DestinationResponse> expected = List.of(DestinationMapper.entityToDto(destination));
+
+        when(destinationRepository.findByCityIgnoreCase(city)).thenReturn(List.of(destination));
+
+        List<DestinationResponse> result = destinationService.filterByCity(city);
+
+        assertEquals(expected, result);
+
+        verify(destinationRepository, times(1)).findByCityIgnoreCase(city);
+   }
+
+   @Test
+    void filterByCity_whenCityDoesNotExist_returnsEmptyList() {
+
+        String city = "NoCity";
+
+        when(destinationRepository.findByCityIgnoreCase(city)).thenReturn(List.of());
+
+        List<DestinationResponse> result = destinationService.filterByCity(city);
+
+        assertTrue(result.isEmpty());
+   }
+
+    @Test
+    void filterByCountry_whenCountryExists_returnsListOfDestinationResponse() {
+
+        String country = "Spain";
+        List<DestinationResponse> expected = List.of(DestinationMapper.entityToDto(destination));
+
+        when(destinationRepository.findByCountryIgnoreCase(country)).thenReturn(List.of(destination));
+
+        List<DestinationResponse> result = destinationService.filterByCountry(country);
+
+        assertEquals(expected, result);
+
+        verify(destinationRepository, times(1)).findByCountryIgnoreCase(country);
+    }
+
+    @Test
+    void filterByCountry_whenCountryDoesNotExist_returnsEmptyList() {
+
+        String country = "NoCountry";
+
+        when(destinationRepository.findByCountryIgnoreCase(country)).thenReturn(List.of());
+
+        List<DestinationResponse> result = destinationService.filterByCountry(country);
+
+        assertTrue(result.isEmpty());
+    }
+
+
 }
+
+
 
