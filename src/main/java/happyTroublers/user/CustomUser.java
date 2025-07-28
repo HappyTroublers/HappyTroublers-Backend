@@ -33,7 +33,7 @@ public class CustomUser {
     @Column(name = "role", table = "users", nullable = false, length = 20)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Destination> destinations = new ArrayList<>();
 
     public CustomUser(String username, String email, String password) {
