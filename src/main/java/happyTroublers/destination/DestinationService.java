@@ -59,4 +59,24 @@ public class DestinationService {
         DestinationResponse destination = getDestinationById(id);
         DESTINATION_REPOSITORY.deleteById(id);
     }
+
+    public List<DestinationResponse> filterDestinations(String city, String country) {
+        if (city != null && !city.isBlank()) {
+            return filterByCity(city);
+        }
+
+        if (country != null && !country.isBlank()) {
+            return filterByCountry(country);
+        }
+
+        return getAllDestinations();
+    }
+
+    public List<DestinationResponse> filterByCity(String city) {
+        return DESTINATION_REPOSITORY.findByCityIgnoreCase(city).stream().map(destination -> DestinationMapper.entityToDto(destination)).toList();
+    }
+
+    public List<DestinationResponse> filterByCountry(String country) {
+        return DESTINATION_REPOSITORY.findByCountryIgnoreCase(country).stream().map(destination -> DestinationMapper.entityToDto(destination)).toList();
+    }
 }
