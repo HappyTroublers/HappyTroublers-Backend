@@ -1,23 +1,24 @@
 package happyTroublers.user.dtos;
 
 import happyTroublers.user.Role;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public record AdminRequest (
         @NotBlank(message = "Username is required")
         @Size(min = 2, max = 50, message = "Username must contain between 2 and 50 characters")
         String username,
+
         @NotBlank(message = "E-mail is required")
-        @Email
-        @Size(min = 15, max = 50, message = "E-mail must contain between 15 and 50 characters")
+        @Email(message = "Invalid e-mail format",
+                regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
         String email,
+
         @NotBlank(message = "Password is required")
-        @Size(min = 12, max = 50, message = "Password must contain between 20 and 50 characters")
+        @Pattern(message = "Password must contain a minimum of 12 characters, including a number, one uppercase letter, one lowercase letter and one special character",
+                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{12,}$")
         String password,
-        @NotBlank(message = "Role is required")
-        @Size(max = 20, message = "Role must have a maximum of 20 characters")
+
+        @NotNull(message = "Role is required")
         Role role
 ) {
 }

@@ -2,6 +2,7 @@ package happyTroublers.destination;
 
 import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
+import happyTroublers.user.CustomUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/destinations")
+@RequestMapping("/destinations")
 
 public class DestinationController {
     private final DestinationService DESTINATION_SERVICE;
@@ -31,6 +32,13 @@ public class DestinationController {
         DestinationResponse destinationResponse = DESTINATION_SERVICE.getDestinationById(id);
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@PathVariable String username) {
+        List<DestinationResponse> destinations = DESTINATION_SERVICE.getDestinationsByUsername(username);
+        return new ResponseEntity<>(destinations, HttpStatus.OK);
+    }
+
 
     @PostMapping
     public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest) {

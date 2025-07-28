@@ -1,3 +1,4 @@
+/*
 package happyTroublers.user;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -29,3 +30,4 @@ public class CustomUserDetail implements UserDetails {
         return user.getUsername();
     }
 }
+*/

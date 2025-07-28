@@ -2,15 +2,11 @@ package happyTroublers.destination;
 
 import happyTroublers.user.CustomUser;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "destinations")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Destination {
@@ -18,20 +14,20 @@ public class Destination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "city", table = "destinations", nullable = false, length = 100)
+    @Column(name = "city", nullable = false, length = 100)
     private String city;
 
-    @Column(name = "country", table = "destinations", nullable = false, length = 100)
+    @Column(name = "country", nullable = false, length = 100)
     private String country;
 
-    @Column(name = "description", table = "destinations", length = 1000)
+    @Column(name = "description", length = 1000)
     private String description;
 
-    @Column(name = "imageUrl", table = "destinations", length = 250)
+    @Column(name = "image_url", length = 250)
     private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name = "custom_user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private CustomUser user;
 
     public Destination(String city, String country, String description, String imageUrl, CustomUser user) {
