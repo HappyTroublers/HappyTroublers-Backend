@@ -3,6 +3,7 @@ package happyTroublers.destination;
 import happyTroublers.destination.dtos.DestinationMapper;
 import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
+import happyTroublers.exceptions.custom_exceptions.DestinationNotFoundException;
 import happyTroublers.user.CustomUser;
 import happyTroublers.user.CustomUserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +18,7 @@ import java.util.Optional;
 
 import static happyTroublers.user.Role.USER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -110,6 +110,20 @@ public class DestinationServiceTest {
     }
 
     @Test
+    void getDestinationById_whenDestinationDoesNotExist_throwsDestinationNotFoundException() {
+        Long id = 2L;
+        String messageExpected = "Destination with id " + id + " not found";
+
+        when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
+
+        Exception result = assertThrows(DestinationNotFoundException.class, () -> destinationService.getDestinationById(id));
+
+        assertEquals(messageExpected, result.getMessage());
+
+        verify(destinationRepository, times(1)).findById(id);
+    }
+
+    @Test
     void addDestination_whenCorrectRequest_returnDestinationResponse() {
 
         when(customUserRepository.findByUsername(username)).thenReturn(Optional.of(user));
@@ -133,8 +147,8 @@ public class DestinationServiceTest {
     void updateDestination_whenDestinationExist_returnDestinationResponse() {
 
         DestinationRequest updatedDestinationRequest = new DestinationRequest("Londres", "UK", "blibli", "img1.png", "María");
-        Destination updatedDestination = new Destination(1L, "Londres", "UK", "blibli", "img1.png", user);
-        DestinationResponse updatedDestinationResponse = new DestinationResponse("Londres", "UK", "blibli", "img1.png", "María");
+        Destination updatedDestination = new Destination(1L, "London", "UK", "blibli", "img1.png", user);
+        DestinationResponse updatedDestinationResponse = new DestinationResponse("London", "UK", "blibli", "img1.png", "María");
 
         when(destinationRepository.findById(eq(id))).thenReturn(Optional.of(destination));
         when(destinationRepository.save(any(Destination.class))).thenReturn(updatedDestination);
