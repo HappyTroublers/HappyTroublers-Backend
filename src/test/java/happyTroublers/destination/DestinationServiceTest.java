@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -279,6 +280,59 @@ public class DestinationServiceTest {
         List<DestinationResponse> result = destinationService.filterByCountry(country);
 
         assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void filterDestinations_whenCityGiven_callsFilterByCityOnly() {
+
+        String city = "Madrid";
+        List<DestinationResponse> expected = List.of(DestinationMapper.entityToDto(destination));
+
+        DestinationService spyService = Mockito.spy(destinationService);
+        doReturn(expected).when(spyService).filterByCity(city);
+
+        List<DestinationResponse> result = spyService.filterDestinations(city, null);
+
+        assertEquals(expected, result);
+
+        verify(spyService, times(1)).filterByCity(city);
+        verify(spyService, never()).filterByCountry(any());
+        verify(spyService, never()).getAllDestinations();
+    }
+
+    @Test
+    void filterDestinations_whenCountryGiven_callsFilterByCountryOnly() {
+
+        String country = "Spain";
+        List<DestinationResponse> expected = List.of(DestinationMapper.entityToDto(destination));
+
+        DestinationService spyService = Mockito.spy(destinationService);
+        doReturn(expected).when(spyService).filterByCountry(country);
+
+        List<DestinationResponse> result = spyService.filterDestinations(null, country);
+
+        assertEquals(expected, result);
+
+        verify(spyService, times(1)).filterByCountry(country);
+        verify(spyService, never()).filterByCity(any());
+        verify(spyService, never()).getAllDestinations();
+    }
+
+    @Test
+    void filterDestinations_whenNoCityOrCountry_callsGetAllDestinations() {
+
+        List<DestinationResponse> expected = List.of(DestinationMapper.entityToDto(destination));
+
+        DestinationService spyService = Mockito.spy(destinationService);
+        doReturn(expected).when(spyService).getAllDestinations();
+
+        List<DestinationResponse> result = spyService.filterDestinations(null, null);
+
+        assertEquals(expected, result);
+
+        verify(spyService, times(1)).getAllDestinations();
+        verify(spyService, never()).filterByCity(any());
+        verify(spyService, never()).filterByCountry(any());
     }
 
 
