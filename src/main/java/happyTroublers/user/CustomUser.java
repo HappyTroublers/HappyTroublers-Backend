@@ -23,10 +23,10 @@ public class CustomUser {
     @Column(name = "email", nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(name = "password", nullable = false, unique = true, length = 50)
+    @Column(name = "password", nullable = false, length = 150)
     private String password;
 
-    @Column(name = "role", nullable = false, length = 20)
+    @Column(name = "role", length = 20)
     @Enumerated(EnumType.STRING)
     private Role role;
 
