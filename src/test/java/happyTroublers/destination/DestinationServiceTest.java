@@ -91,6 +91,7 @@ public class DestinationServiceTest {
 
     @Test
     void getDestinationById_whenDestinationDoesNotExist_throwsDestinationNotFoundException() {
+
         Long id = 2L;
 
         String messageExpected = "Destination with id " + id + " not found";
@@ -157,16 +158,33 @@ public class DestinationServiceTest {
         DestinationResponse result = destinationService.updateDestination(id, updatedDestinationRequest);
 
         assertEquals(updatedDestinationResponse, result);
+
         verify(destinationRepository,times(1)).findById(eq(id));
         verify(destinationRepository, times(1)).save(any(Destination.class));
     }
 
+    @Test
+    void updateDestination_whenDestinationDoesNotExist_throwsException() {
 
+        Long id = 2L;
+        DestinationRequest updatedDestinationRequest = new DestinationRequest("London", "UK", "blibli", "img1.png", "María");
 
-     @Test
-     void deleteDestination_whenDestinationExists_deletesSuccessfully() {
+        String messageExpected = "Destination with id " + id + " not found";
+
+        when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
+
+        Exception result = assertThrows(DestinationNotFoundException.class, () -> destinationService.updateDestination(id, updatedDestinationRequest));
+
+        assertEquals(messageExpected, result.getMessage());
+
+        verify(destinationRepository, times(1)).findById(id);
+        verify(destinationRepository, never()).save(any());
+    }
+
+    @Test
+    void deleteDestination_whenDestinationExists_deletesSuccessfully() {
         //Long id = 1L;
-        Destination destination = new Destination(id, "Madrid", "Spain", "Description", "img.png", user);
+        //Destination destination = new Destination(id, "Madrid", "Spain", "Description", "img.png", user);
 
         when(destinationRepository.findById(id)).thenReturn(Optional.of(destination));
 
