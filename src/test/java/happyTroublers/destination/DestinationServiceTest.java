@@ -4,6 +4,7 @@ import happyTroublers.destination.dtos.DestinationMapper;
 import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
 import happyTroublers.exceptions.custom_exceptions.DestinationNotFoundException;
+import happyTroublers.exceptions.custom_exceptions.UserNotFoundException;
 import happyTroublers.user.CustomUser;
 import happyTroublers.user.CustomUserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -90,7 +91,7 @@ public class DestinationServiceTest {
     }
 
     @Test
-    void getDestinationById_whenDestinationDoesNotExist_throwsDestinationNotFoundException() {
+    void getDestinationById_whenDestinationDoesNotExist_throwsException() {
 
         Long id = 2L;
 
@@ -146,6 +147,22 @@ public class DestinationServiceTest {
     }
 
     @Test
+    void addDestination_whenUsernameNotFound_throwsException() {
+
+        username = "Pepa";
+        destinationRequest = new DestinationRequest("Tokio", "Japan", "blublublu", "img3.png", "Pepa");
+        String messageExpected = "User " + destinationRequest.username() + " not found";
+        when(customUserRepository.findByUsername(username)).thenReturn(Optional.empty());
+
+        Exception result = assertThrows(UserNotFoundException.class, () -> destinationService.addDestination(destinationRequest));
+
+        assertEquals(messageExpected, result.getMessage());
+
+        verify(customUserRepository, times(1)).findByUsername(username);
+        verify(destinationRepository, never()).save(any());
+    }
+
+    @Test
     void updateDestination_whenDestinationExist_returnDestinationResponse() {
 
         DestinationRequest updatedDestinationRequest = new DestinationRequest("London", "UK", "blibli", "img1.png", "María");
@@ -196,6 +213,7 @@ public class DestinationServiceTest {
 
    @Test
     void deleteDestination_whenDestinationDoesNotExist_throwsException() {
+
         Long id = 2L;
 
        String messageExpected = "Destination with id " + id + " not found";
