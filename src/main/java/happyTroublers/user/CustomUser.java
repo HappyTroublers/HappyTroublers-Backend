@@ -30,7 +30,7 @@ public class CustomUser {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Destination> destinations = new ArrayList<>();
 
     public CustomUser(String username, String email, String password) {
