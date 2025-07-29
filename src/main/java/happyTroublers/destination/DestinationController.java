@@ -2,12 +2,10 @@ package happyTroublers.destination;
 
 import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
-import happyTroublers.user.CustomUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class DestinationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DestinationResponse>> getAllDestinations(){
+    public ResponseEntity<List<DestinationResponse>> getAllDestinations() {
         List<DestinationResponse> destinations = DESTINATION_SERVICE.getAllDestinations();
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
@@ -48,11 +46,11 @@ public class DestinationController {
     @PutMapping("/{id}")
     public ResponseEntity<DestinationResponse> updateDestination(@PathVariable Long id, @Valid @RequestBody DestinationRequest destinationRequest) {
         DestinationResponse destinationResponse = DESTINATION_SERVICE.updateDestination(id, destinationRequest);
-            return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
+        return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDestination(@PathVariable Long id){
+    public ResponseEntity<Void> deleteDestination(@PathVariable Long id) {
         DESTINATION_SERVICE.deleteDestination(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -64,9 +62,10 @@ public class DestinationController {
     ) {
         List<DestinationResponse> destinations = DESTINATION_SERVICE.filterDestinations(city, country);
 
-        if(destinations.isEmpty()) {
+        if (destinations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
+}
