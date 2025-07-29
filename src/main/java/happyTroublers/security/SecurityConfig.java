@@ -18,7 +18,7 @@ public class SecurityConfig {
                  .authorizeHttpRequests(auth -> auth
                          .requestMatchers(HttpMethod.GET, "/destinations").permitAll()
                          .requestMatchers(HttpMethod.POST, "/register").permitAll()
-                         .requestMatchers(HttpMethod.DELETE, "admin/users/{id}").permitAll()
+                         .requestMatchers(HttpMethod.DELETE, "/admin/users/{id}").permitAll()
                          .anyRequest().authenticated()
                  )
                  .httpBasic(Customizer.withDefaults())
