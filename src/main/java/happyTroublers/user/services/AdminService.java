@@ -33,11 +33,11 @@ public class AdminService implements UserDetailsService {
         return AdminMapper.entityToDto(user);
     }
 
-    public UserResponse addUser(UserRequest userRequest){
-        CustomUser newUser = UserMapper.dtoToEntity(userRequest);
-        newUser.setPassword(passwordEncoder.encode(userRequest.password()));
+    public AdminResponse addUser(AdminRequest adminRequest){
+        CustomUser newUser = AdminMapper.dtoToEntity(adminRequest);
+        newUser.setPassword(passwordEncoder.encode(adminRequest.password()));
         CustomUser savedUser = CUSTOM_USER_REPOSITORY.save(newUser);
-        return UserMapper.entityToDto(savedUser);
+        return AdminMapper.entityToDto(savedUser);
     }
 
     public AdminResponse updateUser(Long id, AdminRequest adminRequest) {
