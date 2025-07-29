@@ -57,5 +57,16 @@ public class DestinationController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<DestinationResponse>> filterDestinations(
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String country
+    ) {
+        List<DestinationResponse> destinations = DESTINATION_SERVICE.filterDestinations(city, country);
 
-}
+        if(destinations.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(destinations, HttpStatus.OK);
+    }
