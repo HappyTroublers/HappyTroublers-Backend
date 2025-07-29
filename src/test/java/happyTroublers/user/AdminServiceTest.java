@@ -29,8 +29,7 @@ public class AdminServiceTest {
     @Mock
     private DestinationRepository destinationRepository;
     @Mock
-    private
-
+    private BCryptPasswordEncoder passwordEncoder;
 
     @InjectMocks
     private AdminService adminService;
