@@ -1,7 +1,7 @@
 package happyTroublers.user.controllers;
 
-import happyTroublers.user.dtos.UserRequest;
-import happyTroublers.user.dtos.UserResponse;
+import happyTroublers.user.dtos.AdminRequest;
+import happyTroublers.user.dtos.AdminResponse;
 import happyTroublers.user.services.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> addUser(@RequestBody @Valid UserRequest userRequest) {
-         return new ResponseEntity<>(ADMIN_SERVICE.addUser(userRequest), HttpStatus.CREATED);
+    public ResponseEntity<AdminResponse> addUser(@RequestBody @Valid AdminRequest adminRequest) {
+         return new ResponseEntity<>(ADMIN_SERVICE.addUser(adminRequest), HttpStatus.CREATED);
     }
 }
