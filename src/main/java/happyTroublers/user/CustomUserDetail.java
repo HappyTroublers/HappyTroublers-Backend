@@ -1,4 +1,3 @@
-/*
 package happyTroublers.user;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -17,7 +16,7 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(user.getRole().toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
     }
 
     @Override
@@ -30,4 +29,3 @@ public class CustomUserDetail implements UserDetails {
         return user.getUsername();
     }
 }
-*/
