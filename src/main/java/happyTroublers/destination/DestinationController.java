@@ -13,45 +13,45 @@ import java.util.List;
 @RequestMapping("/destinations")
 
 public class DestinationController {
-    private final DestinationService DESTINATION_SERVICE;
+    private final DestinationService destinationService;
 
     public DestinationController(DestinationService destinationService) {
-        DESTINATION_SERVICE = destinationService;
+        this.destinationService = destinationService;
     }
 
     @GetMapping
     public ResponseEntity<List<DestinationResponse>> getAllDestinations() {
-        List<DestinationResponse> destinations = DESTINATION_SERVICE.getAllDestinations();
+        List<DestinationResponse> destinations = destinationService.getAllDestinations();
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<DestinationResponse> getDestinationById(@PathVariable Long id) {
-        DestinationResponse destinationResponse = DESTINATION_SERVICE.getDestinationById(id);
+        DestinationResponse destinationResponse = destinationService.getDestinationById(id);
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
     @GetMapping("/user/{username}")
     public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@PathVariable String username) {
-        List<DestinationResponse> destinations = DESTINATION_SERVICE.getDestinationsByUsername(username);
+        List<DestinationResponse> destinations = destinationService.getDestinationsByUsername(username);
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest) {
-        DestinationResponse destinationResponse = DESTINATION_SERVICE.addDestination(destinationRequest);
+        DestinationResponse destinationResponse = destinationService.addDestination(destinationRequest);
         return new ResponseEntity<>(destinationResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<DestinationResponse> updateDestination(@PathVariable Long id, @Valid @RequestBody DestinationRequest destinationRequest) {
-        DestinationResponse destinationResponse = DESTINATION_SERVICE.updateDestination(id, destinationRequest);
+        DestinationResponse destinationResponse = destinationService.updateDestination(id, destinationRequest);
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDestination(@PathVariable Long id) {
-        DESTINATION_SERVICE.deleteDestination(id);
+        destinationService.deleteDestination(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -60,7 +60,7 @@ public class DestinationController {
             @RequestParam(required = false) String city,
             @RequestParam(required = false) String country
     ) {
-        List<DestinationResponse> destinations = DESTINATION_SERVICE.filterDestinations(city, country);
+        List<DestinationResponse> destinations = destinationService.filterDestinations(city, country);
 
         if (destinations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
