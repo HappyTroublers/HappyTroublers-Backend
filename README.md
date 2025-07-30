@@ -30,7 +30,6 @@ This repository contains the development of the project's **backend API**, built
 - Maven
 - Spring Boot
 - Spring Security
-- JWT (Future)
 - MySQL
 - Lombok
 - Mockito
@@ -60,7 +59,6 @@ This repository contains the development of the project's **backend API**, built
 ### Users (In progress)
 - User registration and login
 - Passwords encrypted with BCrypt
-- Authentication with JWT (Bearer Token) (Future)
 - Protected routes for authenticated users
 - User management accessible only by administrators:
     - View full list
@@ -70,15 +68,8 @@ This repository contains the development of the project's **backend API**, built
 ### Destinations
 - Create new destinations (authenticated users)
 - View full list of destinations (authenticated and unauthenticated users)
-- Filter by title or location (In progress)
+- Filter by city or country
 - Only the creators can edit or delete their destinations
-
----
-
-## 🔒 Frontend-backend connection (In progress)
-
-- CORS configured to allow requests from `http://localhost:3000`
-- Endpoint and field verification used by the frontend
 
 ---
 
@@ -94,9 +85,7 @@ git clone https://github.com/HappyTroublers/HappyTroublers-Backend.git
 
 cd HappyTroublers-Backend
 
-### Create the database
-
-CREATE DATABASE happy_troublers;
+### Open a schema in workbench named happy_troublers
 
 ### Configure the connection in the application.properties file:
 
@@ -106,13 +95,11 @@ spring.datasource.username=your_user
 
 spring.datasource.password=your_password 
 
-### Execute
-
-Go to: http://localhost:8080
+### Run the application with your IDE
 
 ---
 
-## 📧 Made by:
+## 📧 Team:
 #### Bruna Sonda
 https://github.com/brunasonda
 
