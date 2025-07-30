@@ -184,7 +184,7 @@ public class DestinationServiceTest {
         Long id = 2L;
         DestinationRequest updatedDestinationRequest = new DestinationRequest("London", "UK", "blibli", "img1.png");
 
-        String messageExpected = "Destination with id " + id + " not found";
+        String messageExpected = "Destination with id " + id + " does not belong to user " + username;
 
         when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
 
@@ -211,7 +211,7 @@ public class DestinationServiceTest {
    void deleteDestination_whenDestinationDoesNotExist_throwsException() {
         Long id = 2L;
 
-        String messageExpected = "Destination with id " + id + " not found";
+        String messageExpected = "Destination with id " + id + " does not belong to user " + username;
 
         when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
 
