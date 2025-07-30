@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class AuthController {
-    private final AdminService ADMIN_SERVICE;
+    private final AdminService adminService;
 
     public AuthController(AdminService adminService) {
-        ADMIN_SERVICE = adminService;
+        this.adminService = adminService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<AdminResponse> addUser(@RequestBody @Valid AdminRequest adminRequest) {
-         return new ResponseEntity<>(ADMIN_SERVICE.addUser(adminRequest), HttpStatus.CREATED);
+         return new ResponseEntity<>(adminService.addUser(adminRequest), HttpStatus.CREATED);
     }
 }
