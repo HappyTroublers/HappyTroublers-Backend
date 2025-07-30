@@ -18,8 +18,6 @@ public record DestinationRequest(
 
         @Pattern(regexp = "^(https?|ftp)://[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=.]+$",
                 message = "Image URL must be a valid URL")
-        String imageUrl,
-
-        String username
+        String imageUrl
 ) {
 }

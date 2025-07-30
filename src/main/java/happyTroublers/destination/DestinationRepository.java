@@ -7,5 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DestinationRepository extends JpaRepository<Destination, Long> {
-    Optional<List<Destination>> findByUser(CustomUser user);
+    List<Destination> findByUser(CustomUser user);
+    List<Destination> findByCityIgnoreCase(String city);
+    List<Destination> findByCountryIgnoreCase(String country);
+    List<Destination> findByUserUsername(String username);
 }

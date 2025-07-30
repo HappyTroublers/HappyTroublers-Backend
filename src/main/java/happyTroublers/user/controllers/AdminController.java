@@ -13,34 +13,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/users")
 public class AdminController {
-    private final AdminService
-    ADMIN_SERVICE;
+    private final AdminService adminService;
 
     public AdminController(AdminService adminService) {
-        ADMIN_SERVICE = adminService;
+        this.adminService = adminService;
     }
 
     @GetMapping
     public ResponseEntity<List<AdminResponse>> getAllUsers() {
-        List<AdminResponse> users = ADMIN_SERVICE.getAllUsers();
+        List<AdminResponse> users = adminService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AdminResponse> getUserById(@PathVariable Long id) {
-        AdminResponse adminResponse = ADMIN_SERVICE.getUserById(id);
+        AdminResponse adminResponse = adminService.getUserById(id);
         return new ResponseEntity<>(adminResponse, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AdminResponse> updateUser(@PathVariable Long id, @Valid @RequestBody AdminRequest adminRequest) {
-        AdminResponse adminResponse = ADMIN_SERVICE.updateUser(id, adminRequest);
+        AdminResponse adminResponse = adminService.updateUser(id, adminRequest);
         return new ResponseEntity<>(adminResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        ADMIN_SERVICE.deleteUser(id);
+        adminService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
