@@ -1,6 +1,5 @@
 package happyTroublers.user;
 
-import happyTroublers.destination.DestinationRepository;
 import happyTroublers.exceptions.custom_exceptions.UserNotFoundException;
 import happyTroublers.user.dtos.AdminRequest;
 import happyTroublers.user.dtos.AdminResponse;
@@ -25,14 +24,11 @@ import static org.mockito.Mockito.*;
 public class AdminServiceTest {
     @Mock
     private CustomUserRepository customUserRepository;
-    @Mock
-    private DestinationRepository destinationRepository;
 
     @InjectMocks
     private AdminService adminService;
 
     private CustomUser user;
-    private List<CustomUser> usersList;
 
     @BeforeEach
     void setUp() {
