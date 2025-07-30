@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 import java.util.List;
@@ -27,6 +28,8 @@ public class AdminServiceTest {
     private CustomUserRepository customUserRepository;
     @Mock
     private DestinationRepository destinationRepository;
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
 
     @InjectMocks
     private AdminService adminService;
@@ -77,14 +80,16 @@ public class AdminServiceTest {
         AdminRequest request = new AdminRequest("MariaUpdated", "maria.updated@gmail.com", "newpass123", ADMIN);
 
         when(customUserRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(passwordEncoder.encode(anyString())).thenReturn("encoded_password");
         when(customUserRepository.save(any())).thenReturn(user);
+
 
         AdminResponse result = adminService.updateUser(1L, request);
 
         assertEquals("MariaUpdated", result.username());
         assertEquals("maria.updated@gmail.com", result.email());
-        assertEquals("newpass123", user.getPassword());
         assertEquals(ADMIN, result.role());
+        assertEquals("encoded_password", user.getPassword());
 
         verify(customUserRepository).save(user);
     }
