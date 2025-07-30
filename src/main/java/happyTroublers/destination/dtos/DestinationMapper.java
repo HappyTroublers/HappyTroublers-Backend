@@ -4,13 +4,14 @@ import happyTroublers.user.CustomUser;
 
 public class DestinationMapper {
     public static Destination dtoToEntity(DestinationRequest dto, CustomUser user) {
-        return new Destination(
-                dto.city(),
-                dto.country(),
-                dto.description(),
-                dto.imageUrl(),
-                user
-        );
+        Destination destination = new Destination();
+        destination.setCity(dto.city());
+        destination.setCountry(dto.country());
+        destination.setDescription(dto.description());
+        destination.setImageUrl(dto.imageUrl());
+        destination.setUser(user);
+
+        return destination;
     }
 
     public static DestinationResponse entityToDto(Destination destination) {
