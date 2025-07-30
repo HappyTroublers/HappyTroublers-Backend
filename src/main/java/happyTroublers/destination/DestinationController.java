@@ -35,8 +35,8 @@ public class DestinationController {
     }
 
     @GetMapping("/my-destinations")
-    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@AuthenticationPrincipal CustomUser user) {
-        List<DestinationResponse> destinations = destinationService.getDestinationsByUsername(user.getUsername());
+    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@AuthenticationPrincipal CustomUserDetail userDetail) {
+        List<DestinationResponse> destinations = destinationService.getDestinationsByUsername(userDetail.getUsername());
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
 

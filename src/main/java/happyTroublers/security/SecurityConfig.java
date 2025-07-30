@@ -27,6 +27,7 @@ public class SecurityConfig {
                          .requestMatchers(HttpMethod.PUT, "/admin/users/{id}").hasRole("ADMIN")
                          .requestMatchers(HttpMethod.DELETE, "/admin/users/{id}").hasRole("ADMIN")
                          .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                          .anyRequest().authenticated()
                  )
                  .httpBasic(Customizer.withDefaults())

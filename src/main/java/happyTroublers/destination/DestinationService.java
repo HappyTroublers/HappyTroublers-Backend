@@ -55,19 +55,11 @@ public class DestinationService {
         return DestinationMapper.entityToDto(savedDestination);
     }
 
+    public DestinationResponse updateDestination(Long id, DestinationRequest destinationRequest, String username) {
 
-        public DestinationResponse updateDestination(Long id, DestinationRequest destinationRequest, String username) {
+        List<Destination> destinationsByUsername = destinationRepository.findByUserUsername(username);
 
-            List<Destination> destinationsByUsername = destinationRepository.findByUserUsername(username);
-
-            Destination existingDestination = destinationsByUsername.stream().filter(destination -> destination.getId().equals(id)).findFirst().orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
-
-
-       /* Destination existingDestination = destinationRepository.findByIdAndUserUsername(id, username).orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
-
-       if (!existingDestination.getUser().getUsername().equals(username)) {
-            throw new AccessDeniedException("You are not authorized to update this destination");
-       }*/
+        Destination existingDestination = destinationsByUsername.stream().filter(destination -> destination.getId().equals(id)).findFirst().orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " does not belong to user " + username));
 
         existingDestination.setCity(destinationRequest.city());
         existingDestination.setCountry(destinationRequest.country());
@@ -79,14 +71,12 @@ public class DestinationService {
     }
 
     public void deleteDestination(Long id, String username) {
-        Destination destination = destinationRepository.findById(id)
-                .orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
 
-       /* if (!destination.getUser().getUsername().equals(username)) {
-            throw new AccessDeniedException("You are not authorized to delete this destination");
-        }*/
+        List<Destination> destinationsByUsername = destinationRepository.findByUserUsername(username);
 
-        destinationRepository.delete(destination);
+        Destination existingDestination = destinationsByUsername.stream().filter(destination -> destination.getId().equals(id)).findFirst().orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " does not belong to user " + username));
+
+        destinationRepository.delete(existingDestination);
     }
 
     public List<DestinationResponse> filterDestinations(String city, String country) {
