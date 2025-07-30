@@ -2,9 +2,12 @@ package happyTroublers.destination;
 
 import happyTroublers.destination.dtos.DestinationRequest;
 import happyTroublers.destination.dtos.DestinationResponse;
+import happyTroublers.user.CustomUser;
+import happyTroublers.user.CustomUserDetail;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,27 +34,27 @@ public class DestinationController {
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/user/{username}")
-    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@PathVariable String username) {
-        List<DestinationResponse> destinations = destinationService.getDestinationsByUsername(username);
+    @GetMapping("/my-destinations")
+    public ResponseEntity<List<DestinationResponse>> getDestinationsByUsername(@AuthenticationPrincipal CustomUser user) {
+        List<DestinationResponse> destinations = destinationService.getDestinationsByUsername(user.getUsername());
         return new ResponseEntity<>(destinations, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest, String username) {
-        DestinationResponse destinationResponse = destinationService.addDestination(destinationRequest, username);
+    public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest, @AuthenticationPrincipal CustomUserDetail userDetails) {
+        DestinationResponse destinationResponse = destinationService.addDestination(destinationRequest, userDetails.getUsername());
         return new ResponseEntity<>(destinationResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DestinationResponse> updateDestination(@PathVariable Long id, @Valid @RequestBody DestinationRequest destinationRequest, String username) {
-        DestinationResponse destinationResponse = destinationService.updateDestination(id, destinationRequest, username);
+    public ResponseEntity<DestinationResponse> updateDestination(@PathVariable Long id, @Valid @RequestBody DestinationRequest destinationRequest, @AuthenticationPrincipal CustomUserDetail userDetails) {
+        DestinationResponse destinationResponse = destinationService.updateDestination(id, destinationRequest, userDetails.getUsername());
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDestination(@PathVariable Long id, String username) {
-        destinationService.deleteDestination(id, username);
+    public ResponseEntity<Void> deleteDestination(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetail userDetails) {
+        destinationService.deleteDestination(id, userDetails.getUsername());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

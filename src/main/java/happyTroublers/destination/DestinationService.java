@@ -55,12 +55,19 @@ public class DestinationService {
         return DestinationMapper.entityToDto(savedDestination);
     }
 
-    public DestinationResponse updateDestination(Long id, DestinationRequest destinationRequest, String username) {
-        Destination existingDestination = destinationRepository.findById(id).orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
 
-        if (!existingDestination.getUser().getUsername().equals(username)) {
+        public DestinationResponse updateDestination(Long id, DestinationRequest destinationRequest, String username) {
+
+            List<Destination> destinationsByUsername = destinationRepository.findByUserUsername(username);
+
+            Destination existingDestination = destinationsByUsername.stream().filter(destination -> destination.getId().equals(id)).findFirst().orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
+
+
+       /* Destination existingDestination = destinationRepository.findByIdAndUserUsername(id, username).orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
+
+       if (!existingDestination.getUser().getUsername().equals(username)) {
             throw new AccessDeniedException("You are not authorized to update this destination");
-        }
+       }*/
 
         existingDestination.setCity(destinationRequest.city());
         existingDestination.setCountry(destinationRequest.country());
@@ -75,9 +82,9 @@ public class DestinationService {
         Destination destination = destinationRepository.findById(id)
                 .orElseThrow(() -> new DestinationNotFoundException("Destination with id " + id + " not found"));
 
-        if (!destination.getUser().getUsername().equals(username)) {
+       /* if (!destination.getUser().getUsername().equals(username)) {
             throw new AccessDeniedException("You are not authorized to delete this destination");
-        }
+        }*/
 
         destinationRepository.delete(destination);
     }
