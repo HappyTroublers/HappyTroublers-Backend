@@ -73,9 +73,6 @@ public class DestinationServiceTest {
     @Test
     void getDestinationById_whenDestinationExist_returnsDestinationResponse() {
 
-        //Long id = 1L;
-        //CustomUser user = new CustomUser(1L, "María", "maria@email.com", "pass123", USER, List.of());
-        //Destination destination = new Destination(id, "Madrid", "España", "Una ciudad genial", "img.png", user);
         DestinationResponse expectedResponse = DestinationMapper.entityToDto(destination);
 
         given(destinationRepository.findById(id)).willReturn(Optional.of(destination));
@@ -201,8 +198,6 @@ public class DestinationServiceTest {
 
     @Test
     void deleteDestination_whenDestinationExists_deletesSuccessfully() {
-        //Long id = 1L;
-        //Destination destination = new Destination(id, "Madrid", "Spain", "Description", "img.png", user);
 
         when(destinationRepository.findById(id)).thenReturn(Optional.of(destination));
 
