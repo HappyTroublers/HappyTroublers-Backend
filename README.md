@@ -30,7 +30,7 @@ This repository contains the development of the project's **backend API**, built
 - Maven
 - Spring Boot
 - Spring Security
-- JWT
+- JWT (Future)
 - MySQL
 - Lombok
 - Mockito
@@ -60,7 +60,7 @@ This repository contains the development of the project's **backend API**, built
 ### Users (In progress)
 - User registration and login
 - Passwords encrypted with BCrypt
-- Authentication with JWT (Bearer Token)
+- Authentication with JWT (Bearer Token) (Future)
 - Protected routes for authenticated users
 - User management accessible only by administrators:
     - View full list
@@ -83,24 +83,32 @@ This repository contains the development of the project's **backend API**, built
 ---
 
 # 🗡️ Installation
-## By Dockerfile
-### In Docker, create a file called Dockerfile with this content:
+### You will need:
+- Java 17+
+- MySQL
+- Git
 
-FROM nginx:alpine  
-COPY . /usr/share/nginx/html  
-EXPOSE 80  
-CMD ["nginx", "-g", "daemon off;"]
+### Download the project
 
-### Then, in your terminal, build your image:
+git clone https://github.com/HappyTroublers/HappyTroublers-Backend.git
 
-docker build -t HappyTroublers-Backend .
+cd HappyTroublers-Backend
 
-### And run the container:
+### Create the database
 
-docker run -p 8080:80 HappyTroublers-Backend
+CREATE DATABASE happy_troublers;
 
-### Then, open your browser at:
-http://localhost:8080
+### Configure the connection in the application.properties file:
+
+spring.datasource.url=jdbc:mysql://localhost:3306/happy_troublers
+
+spring.datasource.username=your_user
+
+spring.datasource.password=your_password 
+
+### Execute
+
+Go to: http://localhost:8080
 
 ---
 
