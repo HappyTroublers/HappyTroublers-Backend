@@ -5,7 +5,6 @@ import happyTroublers.user.Role;
 
 import java.util.List;
 
-//DestinationList in admin?
 public record AdminResponse(
         String username,
         String email,
