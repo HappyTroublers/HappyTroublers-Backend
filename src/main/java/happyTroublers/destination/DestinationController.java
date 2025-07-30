@@ -26,8 +26,8 @@ public class DestinationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DestinationResponse> getDestinationById(@PathVariable Long id) {
-        DestinationResponse destinationResponse = destinationService.getDestinationById(id);
+    public ResponseEntity<DestinationResponse> getDestinationById(@PathVariable Long id, String username) {
+        DestinationResponse destinationResponse = destinationService.getDestinationById(id, username);
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
@@ -38,20 +38,20 @@ public class DestinationController {
     }
 
     @PostMapping
-    public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest) {
-        DestinationResponse destinationResponse = destinationService.addDestination(destinationRequest);
+    public ResponseEntity<DestinationResponse> addDestination(@Valid @RequestBody DestinationRequest destinationRequest, String username) {
+        DestinationResponse destinationResponse = destinationService.addDestination(destinationRequest, username);
         return new ResponseEntity<>(destinationResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DestinationResponse> updateDestination(@PathVariable Long id, @Valid @RequestBody DestinationRequest destinationRequest) {
-        DestinationResponse destinationResponse = destinationService.updateDestination(id, destinationRequest);
+    public ResponseEntity<DestinationResponse> updateDestination(@PathVariable Long id, @Valid @RequestBody DestinationRequest destinationRequest, String username) {
+        DestinationResponse destinationResponse = destinationService.updateDestination(id, destinationRequest, username);
         return new ResponseEntity<>(destinationResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDestination(@PathVariable Long id) {
-        destinationService.deleteDestination(id);
+    public ResponseEntity<Void> deleteDestination(@PathVariable Long id, String username) {
+        destinationService.deleteDestination(id, username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
