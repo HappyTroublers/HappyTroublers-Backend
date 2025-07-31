@@ -149,7 +149,9 @@ public class DestinationServiceTest {
 
         username = "Pepa";
         destinationRequest = new DestinationRequest("Tokio", "Japan", "blublublu", "img3.png");
+
         String messageExpected = "User " + username + " not found";
+
         when(customUserRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         Exception result = assertThrows(UserNotFoundException.class, () -> destinationService.addDestination(destinationRequest, username));
@@ -167,60 +169,57 @@ public class DestinationServiceTest {
         Destination updatedDestination = new Destination(1L, "London", "UK", "blibli", "img1.png", user);
         DestinationResponse updatedDestinationResponse = new DestinationResponse("London", "UK", "blibli", "img1.png", "María");
 
-        when(destinationRepository.findById(eq(id))).thenReturn(Optional.of(destination));
+        when(destinationRepository.findByUserUsername(username)).thenReturn(List.of(destination));
         when(destinationRepository.save(any(Destination.class))).thenReturn(updatedDestination);
 
         DestinationResponse result = destinationService.updateDestination(id, updatedDestinationRequest, username);
 
         assertEquals(updatedDestinationResponse, result);
 
-        verify(destinationRepository,times(1)).findById(eq(id));
-        verify(destinationRepository, times(1)).save(any(Destination.class));
+        verify(destinationRepository,times(1)).findByUserUsername(username);
+        verify(destinationRepository, times(1)).save(destination);
     }
 
     @Test
     void updateDestination_whenDestinationDoesNotExist_throwsException() {
 
-        Long id = 2L;
         DestinationRequest updatedDestinationRequest = new DestinationRequest("London", "UK", "blibli", "img1.png");
 
         String messageExpected = "Destination with id " + id + " does not belong to user " + username;
 
-        when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
+        when(destinationRepository.findByUserUsername(username)).thenReturn(List.of());
 
         Exception result = assertThrows(DestinationNotFoundException.class, () -> destinationService.updateDestination(id, updatedDestinationRequest, username));
 
         assertEquals(messageExpected, result.getMessage());
 
-        verify(destinationRepository, times(1)).findById(id);
+        verify(destinationRepository, times(1)).findByUserUsername(username);
         verify(destinationRepository, never()).save(any());
     }
 
     @Test
     void deleteDestination_whenDestinationExists_deletesSuccessfully() {
 
-        when(destinationRepository.findById(id)).thenReturn(Optional.of(destination));
+        when(destinationRepository.findByUserUsername(username)).thenReturn(List.of(destination));
 
         destinationService.deleteDestination(id, username);
 
-        verify(destinationRepository, times(1)).deleteById(id);
-        verify(destinationRepository, times(1)).findById(id);
+        verify(destinationRepository, times(1)).findByUserUsername(username);
+        verify(destinationRepository, times(1)).delete(destination);
     }
 
    @Test
    void deleteDestination_whenDestinationDoesNotExist_throwsException() {
-        Long id = 2L;
+       when(destinationRepository.findByUserUsername(username)).thenReturn(List.of());
 
         String messageExpected = "Destination with id " + id + " does not belong to user " + username;
-
-        when(destinationRepository.findById((eq(id)))).thenReturn(Optional.empty());
 
         Exception result = assertThrows(DestinationNotFoundException.class, () -> destinationService.deleteDestination(id, username));
 
         assertEquals(messageExpected, result.getMessage());
 
-        verify(destinationRepository, times(1)).findById(id);
-        verify(destinationRepository, never()).deleteById(anyLong());
+        verify(destinationRepository, times(1)).findByUserUsername(username);
+        verify(destinationRepository, never()).delete(any());
    }
 
    @Test
