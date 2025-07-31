@@ -52,8 +52,6 @@ This repository contains the development of the project's **backend API**, built
 
 ---
 
-### 🚧 Under development using layered MVC architecture.
-
 ## 🔱‍ Main Features (MVP)
 
 ### Users (In progress)
