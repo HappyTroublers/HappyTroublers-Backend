@@ -1,4 +1,3 @@
-/*
 package happyTroublers.security;
 
 import org.springframework.context.annotation.Bean;
@@ -15,8 +14,17 @@ public class SecurityConfig {
     @Bean
      public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
          http
+                 .csrf(csrf -> csrf.disable())
                  .authorizeHttpRequests(auth -> auth
                          .requestMatchers(HttpMethod.GET, "/destinations").permitAll()
+                         .requestMatchers(HttpMethod.GET, "/destinations/{id}").permitAll()
+                         .requestMatchers(HttpMethod.GET, "/destinations/my-destinations").hasRole("USER")
+                         .requestMatchers(HttpMethod.POST, "/destinations").hasRole("USER")
+                         .requestMatchers(HttpMethod.PUT, "/destinations/{id}").hasRole("USER")
+                         .requestMatchers(HttpMethod.DELETE, "/destinations/{id}").hasRole("USER")
+                         .requestMatchers(HttpMethod.GET, "/admin/users").hasRole("ADMIN")
+                         .requestMatchers("/admin/users/{id}").hasRole("ADMIN")
+                         .requestMatchers(HttpMethod.POST, "/register").permitAll()
                          .anyRequest().authenticated()
                  )
                  .httpBasic(Customizer.withDefaults())
@@ -24,5 +32,3 @@ public class SecurityConfig {
          return http.build();
      }
 }
-
-*/
