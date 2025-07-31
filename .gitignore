@@ -36,4 +36,4 @@ build/
 .env
 
 ### Data initializer ###
-data.sql
+src/main/resources/data.sql
