@@ -34,6 +34,3 @@ build/
 
 ### Enviroment ###
 .env
-
-### Data initializer ###
-**/resources/data.sql
